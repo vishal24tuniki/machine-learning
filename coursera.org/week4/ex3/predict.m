@@ -21,16 +21,8 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
-% X (m x 400)
-a1 = [ones(m, 1) X];
-% a1 (m x 401)
-a2 = sigmoid(Theta1 * a1')';
-% a2 m x 25
-a2bias = [ones(size(a2, 1), 1) a2];
-% a2 m x 26
-for i=1:m,
-    [elem, p(i)] = max(sigmoid(Theta2 * a2bias(i,:)'));
-end;
+a2 = sigmoid([ones(m, 1) X] * Theta1');
+[elems, p] = max(sigmoid([ones(size(a2, 1), 1) a2] * Theta2'),[], 2);
 
 % =========================================================================
 

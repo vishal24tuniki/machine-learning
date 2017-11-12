@@ -30,10 +30,7 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-for i=1:m,
-    [elem, p(i)] = max(sigmoid(all_theta*X(i,:)'));
-end;
-
+[elems, p] = max(sigmoid(X*all_theta'), [], 2);
 
 % =========================================================================
 
