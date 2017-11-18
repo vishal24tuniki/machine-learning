@@ -89,14 +89,14 @@ J = J/m;
 
 regularization = 0
 
-for i=1:input_layer_size,
-    for j=1:hidden_layer_size,
+for j=1:hidden_layer_size,
+    for i=1:input_layer_size,
         regularization = regularization + Theta1(j,i+1)^2;
     end;
 end;
 
-for i=1:hidden_layer_size,
-    for j=1:num_labels,
+for j=1:num_labels,
+    for i=1:hidden_layer_size,
         regularization = regularization + Theta2(j,i+1)^2;
     end;
 end;
@@ -108,16 +108,12 @@ Theta2_grad = DELTA2/m;
 
 
 for i=1:hidden_layer_size,
-    for j=2:input_layer_size+1,
-        Theta1_grad(i,j) = Theta1_grad(i,j) + lambda/m*Theta1(i,j);
-    end;
+    Theta1_grad(i,2:end) = Theta1_grad(i,2:end) + lambda/m*Theta1(i,2:end);
 end;
 
 
 for i=1:num_labels,
-    for j=2:hidden_layer_size+1,
-        Theta2_grad(i,j) = Theta2_grad(i,j) + lambda/m*Theta2(i,j);
-    end;
+    Theta2_grad(i,2:end) = Theta2_grad(i,2:end) + lambda/m*Theta2(i,2:end);
 end;
 
 
