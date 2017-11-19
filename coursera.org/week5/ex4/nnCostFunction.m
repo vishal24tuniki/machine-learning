@@ -73,9 +73,8 @@ for i=1:m,
     a1 = [1;X(i,:)'];
     a2 = [1;sigmoid(Theta1*a1)];
     a3 = sigmoid(Theta2*a2);
-    for k=1:num_labels,
-        J = J + (-yi(k) * log(a3(k)) - (1-yi(k)) * log(1-a3(k)));
-    end;
+
+    J = J + 1/m*(-yi'*log(a3) - (1-yi)'*log(1-a3));
 
     delta3 = a3 - yi;
     delta2 = (Theta2' * delta3).*a2.*(1-a2);
@@ -85,43 +84,13 @@ for i=1:m,
     DELTA1 = DELTA1 + delta2 * a1';
 end;
 
-J = J/m;
-
-regularization = 0
-
-for j=1:hidden_layer_size,
-    for i=1:input_layer_size,
-        regularization = regularization + Theta1(j,i+1)^2;
-    end;
-end;
-
-for j=1:num_labels,
-    for i=1:hidden_layer_size,
-        regularization = regularization + Theta2(j,i+1)^2;
-    end;
-end;
-
-J = J + regularization*lambda/(2*m);
+J = J + (sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)))*lambda/(2*m);
 
 Theta1_grad = DELTA1/m;
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end) + lambda/m * Theta1(:,2:end);
+
 Theta2_grad = DELTA2/m;
-
-
-for i=1:hidden_layer_size,
-    Theta1_grad(i,2:end) = Theta1_grad(i,2:end) + lambda/m*Theta1(i,2:end);
-end;
-
-
-for i=1:num_labels,
-    Theta2_grad(i,2:end) = Theta2_grad(i,2:end) + lambda/m*Theta2(i,2:end);
-end;
-
-
-
-
-
-
-
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end) + lambda/m * Theta2(:,2:end);
 
 
 
