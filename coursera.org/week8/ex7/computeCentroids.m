@@ -32,8 +32,8 @@ for i=1:K,
     if len == 0,
         continue;
     end;
-    for j=1:len,
-        centroids(i,:) = centroids(i,:) + X(indices(j),:);
+    for index=indices',
+        centroids(i,:) = centroids(i,:) + X(index,:);
     end;
     centroids(i,:) = centroids(i,:)/len;
 end;
